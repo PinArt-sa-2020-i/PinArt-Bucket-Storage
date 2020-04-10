@@ -153,20 +153,18 @@ namespace PinArt_Bucket_Storage.Services
 
             if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
             {
-                // this model is up to you, in my case I have to use it following;
                 return new S3Response
                 {
                     Status = HttpStatusCode.Created,
-                    Message = fileName
+                    Message = $"https://pinart-images-storage.s3.amazonaws.com/{fileName}"
                 };
             }
             else
             {
-                // this model is up to you, in my case I have to use it following;
                 return new S3Response
                 {
                     Status = HttpStatusCode.Created,
-                    Message = fileName
+                    Message = $"https://pinart-images-storage.s3.amazonaws.com/{fileName}"
                 };
             }
         }
