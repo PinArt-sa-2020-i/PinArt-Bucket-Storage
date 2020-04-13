@@ -1,0 +1,148 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "API to connect with the AWS Bucket Service S3"
+  description: ""
+  license:
+    name: Software Architecture, 2020-I
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /AddFile:
+    post:
+      summary: Add image to S3 bucket status 201
+      operationId: Add file
+      parameters:
+        - name: File
+          in: body
+          required: true
+          description: File
+          schema:
+            $ref: "#/definitions/File"
+
+      responses:
+        "200":
+          description: Created
+          schema:
+            $ref: "#/definitions/SuccessModel"
+
+        "400":
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/ErrorModel"
+
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorModel"
+
+  /GetFile/{id}:
+    get:
+      summary: Returns the Link of the image status 302
+      operationId: getFileById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the image
+          required: true
+          type: integer
+
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: "#/definitions/SuccessModel"
+
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/ErrorModel"
+
+        "406":
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: "#/definitions/ErrorModel"
+
+        "500":
+          description: unexpected error
+          schema:
+            $ref: "#/definitions/ErrorModel"
+
+  /DelFile/{id}:
+    delete:
+      summary: Deletes an image from the bucker
+      operationId: deleteFileById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user to be deleted
+          required: true
+          type: integer
+
+      responses:
+        "200":
+          description: Ok
+          schema:
+            $ref: "#/definitions/SuccessModel"
+
+        "404":
+          description: Not Found
+          schema:
+            $ref: "#/definitions/ErrorModel"
+        "406":
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: "#/definitions/ErrorModel"
+        "500":
+          description: unexpected error
+          schema:
+            $ref: "#/definitions/ErrorModel"
+
+definitions:
+  File:
+    type: object
+    required:
+      - file
+    properties:
+      file:
+        type: string
+
+  #Success
+  SuccessModel:
+    type: object
+    required:
+      - status
+      - message
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+
+  # Errors
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: number
+      description:
+        type: object
+
+# Added by API Auto Mocking Plugin
+# host: ec2-3-227-65-124.compute-1.amazonaws.com:8081
+# basePath: /api/S3Bucket
+# schemes:
+#   - http
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /tpereza/PinArt-Storage-Bucket/1.0.0
+schemes:
+  - https
+  - http
