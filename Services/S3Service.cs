@@ -156,7 +156,7 @@ namespace PinArt_Bucket_Storage.Services
                 return new S3Response
                 {
                     Status = HttpStatusCode.Created,
-                    Message = $"https://pinart-images-storage.s3.amazonaws.com/{fileName}"
+                    Message = fileName
                 };
             }
             else
@@ -164,11 +164,54 @@ namespace PinArt_Bucket_Storage.Services
                 return new S3Response
                 {
                     Status = HttpStatusCode.Created,
-                    Message = $"https://pinart-images-storage.s3.amazonaws.com/{fileName}"
+                    Message = fileName
                 };
             }
         }
 
+        public async Task<S3Response> DeleteObjectFromS3Async(string keyName)
+        {
+
+            try
+            {
+                // Build the request with the bucket name and the keyName (name of the file)
+                var request = new GetObjectRequest
+                {
+                    BucketName = "pinart-images-storage",
+                    Key = keyName
+                };
+
+                await _client.GetObjectAsync(request);
+
+                await _client.DeleteObjectAsync("pinart-images-storage", keyName);
+
+                return new S3Response
+                {
+                    Message = "The file was successfully deleted",
+                    Status = HttpStatusCode.OK
+                };
+            }
+
+            // Catch specific amazon errors
+            catch (AmazonS3Exception e)
+            {
+                return new S3Response
+                {
+                    Message = e.Message,
+                    Status = e.StatusCode
+                };
+            }
+
+            // Catch other errors
+            catch (Exception e)
+            {
+                return new S3Response
+                {
+                    Message = e.Message,
+                    Status = HttpStatusCode.InternalServerError
+                };
+            }
+        }
 
     }
 }

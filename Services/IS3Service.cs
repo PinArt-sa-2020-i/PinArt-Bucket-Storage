@@ -9,5 +9,7 @@ namespace PinArt_Bucket_Storage.Services
         Task<S3Response> CreateBucketAsync(string bucketName);
         Task<S3Response> UploadObject(IFormFile file);
         Task<S3Response> GetObjectFromS3Async(string fileName);
+
+        Task<S3Response> DeleteObjectFromS3Async(string keyName);
     }
 }

@@ -59,5 +59,13 @@ namespace PinArt_Bucket_Storage.Controllers
             return response;
         }
 
+        [HttpDelete]
+        [Route("DelFile/{fileName}")]
+        public async Task<S3Response> DeleteObjectFromS3Async([FromRoute] string fileName)
+        {
+            var response = await _service.DeleteObjectFromS3Async(fileName);
+            return response;
+        }
+
     }
 }
